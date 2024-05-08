@@ -1,8 +1,8 @@
-export default function Lab3(){
+export default function Lab2(){
     return(
         <div>
             <h2>
-                Lab3
+                Lab2
             </h2>
         </div>
     );
