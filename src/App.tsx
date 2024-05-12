@@ -1,16 +1,23 @@
 import React from "react";
 import "./App.css";
 import Labs from "./Labs";
+import { HashRouter,Routes,Route, Navigate } from "react-router-dom";
+import Kanbas from "./Kanbas";
 
 function App() {
   return (
-    <div>
-      <h1>Yifan Cai</h1>
-      <Labs />
-      <a href="https://github.com/YifanCai0309/kanbas-react-web-app/tree/a1">
-        GitHub
-      </a>
+    <HashRouter>
+    <div> 
+    
+      <Routes>
+      <Route path="/" element={<Navigate to="Labs" />} />   
+      <Route path="/Labs/*" element={<Labs />} />   
+      <Route path="/Kanbas/*" element={<Kanbas />} />  
+      </Routes>
+      {/*Kanbas*/}
+           
     </div>
+    </HashRouter>
   );
 }
 
