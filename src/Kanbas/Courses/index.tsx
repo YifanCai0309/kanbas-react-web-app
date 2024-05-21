@@ -9,7 +9,7 @@ import { Navigate, Route, Routes } from "react-router";
 export default function Courses() {
   return (
     <div id="wd-courses">
-        <div className="modal fade d-md-none" id="sidebarCollapse"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade d-md-none" id="sidebarCollapse-courses"  aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -26,7 +26,7 @@ export default function Courses() {
         className="btn btn-dark d-md-none position-fixed top-0 end-0"
         type="button"
         data-bs-toggle="modal"
-        data-bs-target="#sidebarCollapse"
+        data-bs-target="#sidebarCollapse-courses"
       >
         \/
       </button>
