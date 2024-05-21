@@ -1,3 +1,4 @@
+import "./index.css";
 import { LiaFileImportSolid } from "react-icons/lia";
 import { LiaFileExportSolid } from "react-icons/lia";
 import { IoMdSettings } from "react-icons/io";
