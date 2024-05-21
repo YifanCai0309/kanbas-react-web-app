@@ -1,5 +1,5 @@
-import Header from "./Header";
 import "./index.css";
+import Header from "./Header";
 import { IoAdd } from "react-icons/io5";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons"

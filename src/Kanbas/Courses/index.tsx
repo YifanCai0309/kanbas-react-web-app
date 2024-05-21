@@ -1,3 +1,4 @@
+import "./index.css";
 import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
