@@ -7,7 +7,7 @@ export default function Anchors() {
       to get dummy text
       <br />
       <h4>My Github Repository</h4>
-      <a href="https://github.com/YifanCai0309/kanbas-react-web-app/tree/a1" >
+      <a href="https://github.com/YifanCai0309/kanbas-react-web-app" >
         GitHub
         </a>
     </div>
