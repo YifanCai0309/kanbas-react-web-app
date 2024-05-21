@@ -6,12 +6,12 @@ import Courses from "./Courses";
 
 export default function Kanbas() {
   return (
-    <div id="wd-kanbas" className="h-100">
-      <div className="modal fade d-md-none" id="sidebarCollapse-kanbas"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="wd-kanbas-nav" className="h-100">
+      <div className="modal fade d-md-none" id="sidebarCollapse-kanbas"  aria-labelledby="exampleModalLabel-kanbas" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">Kanbas Navigation</h5>
+              <h5 className="modal-title" id="exampleModalLabel-kanbas">Kanbas Navigation</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -24,7 +24,7 @@ export default function Kanbas() {
         className="btn btn-dark position-fixed top-0 start-0 d-md-none"
         type="button"
         data-bs-toggle="modal"
-        data-bs-target="#sidebarCollapse"
+        data-bs-target="#sidebarCollapse-kanbas"
       >
         ≣
       </button>
