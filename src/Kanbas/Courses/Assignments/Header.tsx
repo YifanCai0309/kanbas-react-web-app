@@ -21,8 +21,9 @@ export default function Header() {
 
       <div className="d-flex col-md-6 justify-content-end">
         <button
+          style={{backgroundColor: '#c7cdd1'}}
           id="wd-add-assignment-group"
-          className="btn btn-lg btn-secondary text-nowrap me-1"
+          className="btn btn-lg text-nowrap me-1"
         >
           + Group
         </button>

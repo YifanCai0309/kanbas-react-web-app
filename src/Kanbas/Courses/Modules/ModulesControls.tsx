@@ -12,8 +12,9 @@ export default function ModulesControls() {
       </button>
       <div className="dropdown d-inline me-1 float-end">
         <button
+        style={{backgroundColor: '#c7cdd1'}}
           id="wd-publish-all-btn"
-          className="btn btn-lg btn-secondary dropdown-toggle"
+          className="btn btn-lg dropdown-toggle"
           type="button"
           data-bs-toggle="dropdown"
         >
@@ -67,14 +68,16 @@ export default function ModulesControls() {
         </ul>
       </div>
       <button
+      style={{backgroundColor: '#c7cdd1'}}
         id=" wd-view-progress"
-        className="btn btn-lg btn-secondary me-1 float-end"
+        className="btn btn-lg me-1 float-end"
       >
         View Progress
       </button>
       <button
+      style={{backgroundColor: '#c7cdd1'}}
         id=" wd-collapse-all"
-        className="btn btn-lg btn-secondary me-1 float-end"
+        className="btn btn-lg me-1 float-end"
       >
         Collapse All
       </button>

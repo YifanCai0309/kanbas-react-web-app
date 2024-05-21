@@ -13,7 +13,7 @@ export default function Modules() {
       <br />
       <ul id="wd-modules" className="list-group rounded-0">
         <li className="wd-module list-group-item p-0 mb-5 fs-5">
-          <div className="wd-title p-3 ps-2 bg-secondary">
+          <div style={{backgroundColor: '#c7cdd1'}}className="wd-title p-3 ps-2">
             <BsGripVertical className="me-2 fs-3" />
             Week 1
             <ModuleControlButtons />
@@ -47,7 +47,7 @@ export default function Modules() {
           </ul>
         </li>
         <li className="wd-module list-group-item p-0 mb-5 fs-5 ">
-        <div className="wd-title p-3 ps-2 bg-secondary">
+        <div style={{backgroundColor: '#c7cdd1'}} className="wd-title p-3 ps-2">
             <BsGripVertical className="me-2 fs-3" />
             Week 2
             <ModuleControlButtons />
