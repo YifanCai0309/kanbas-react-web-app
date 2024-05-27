@@ -1,4 +1,7 @@
+import { useParams } from "react-router";
 export default function AssignmentEditor() {
+  const { id } = useParams();
+  
   return (
     <div id="wd-assignments-editor" className="container">
       <div className="m-4">
@@ -10,7 +13,7 @@ export default function AssignmentEditor() {
           Assignment Name
         </label>
         <div className="mb-3">
-          <input id="wd-name" className="form-control" value="A1" />
+          <input id="wd-name" className="form-control" value={id} />
         </div>
       </div>
 

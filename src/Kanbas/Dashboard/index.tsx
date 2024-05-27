@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import * as db from "../Database";
+import db from "../Database";
 export default function Dashboard() {
   const courses = db.courses;
   return (

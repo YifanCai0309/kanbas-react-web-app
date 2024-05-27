@@ -4,8 +4,15 @@ import { LiaFileExportSolid } from "react-icons/lia";
 import { IoMdSettings } from "react-icons/io";
 import { CiFilter } from "react-icons/ci";
 import { FaSearch } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import db from "../../Database"; 
 
 export default function Grades() {
+  const { cid } = useParams(); 
+  const enrollments = db.enrollments.filter(enrollment => enrollment.course === cid);
+  const assignments = db.assignments.filter(assignment => assignment.course === cid);
+  const grades = db.grades;
+
   return (
     <div className="container mt-4">
       <div className="d-flex flex-row-reverse">
@@ -72,73 +79,40 @@ export default function Grades() {
       </div>
       <div className="mb-3">
         <button 
-        style={{backgroundColor: '#c7cdd1'}}
-        className="btn">
+          style={{backgroundColor: '#c7cdd1'}}
+          className="btn">
           <CiFilter className="fs-3" />
           <i className="bi bi-upload"></i> Apply Filters
         </button>
       </div>
 
       <div className="table-responsive">
-        <table className="table align-middle table-striped table-bordered  table-hover ">
+        <table className="table align-middle table-striped table-bordered table-hover">
           <thead>
             <tr>
-              <th>Student Name</th>
-              <th>A1 SETUP (Out of 100)</th>
-              <th>A2 HTML (Out of 100)</th>
-              <th>A3 CSS (Out of 100)</th>
-              <th>A4 BOOTSTRAP (Out of 100)</th>
+              {enrollments.length > 0 && <th>Student Name</th>}
+              {assignments.map(assignment => (
+                <th key={assignment._id}>{assignment.title}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Jane Adams</td>
-              <td>100%</td>
-              <td>96.67%</td>
-              <td>92.18%</td>
-              <td>66.22%</td>
-            </tr>
-            <tr>
-              <td>Christina Allen</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-            </tr>
-            <tr>
-              <td>Samreen Ansari</td>
-              <td>100</td>
-              <td>96.67</td>
-              <td>92.18</td>
-              <td>66.22</td>
-            </tr>
-            <tr>
-              <td>Han Bao</td>
-              <td>100</td>
-              <td>100</td>
-              <td>
-                <input
-                  type="text"
-                  className="form-control w-50"
-                  defaultValue="88.03%"
-                />
-              </td>
-              <td>100</td>
-            </tr>
-            <tr>
-              <td>Mahi Sai Srinivas Bobbili</td>
-              <td>100</td>
-              <td>96.67</td>
-              <td>92.18</td>
-              <td>66.22</td>
-            </tr>
-            <tr>
-              <td>Slran Cao</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-            </tr>
+            {enrollments.map(enrollment => {
+              const studentGrades = grades.filter(grade => grade.student === enrollment.user);
+              return (
+                <tr key={enrollment.user}>
+                  {enrollments.length > 0 && <td>{enrollment.user}</td>}
+                  {assignments.map(assignment => {
+                    const grade = studentGrades.find(g => g.assignment === assignment._id);
+                    return (
+                      <td key={assignment._id}>
+                        {grade ? grade.grade : "N/A"}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
