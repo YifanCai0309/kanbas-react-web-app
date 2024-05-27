@@ -2,8 +2,11 @@ import ModulesControls from "./ModulesControls";
 import {BsGripVertical} from "react-icons/bs";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
+import { useParams } from "react-router";
+import {modules} from "../../Database";
 
 export default function Modules() {
+  const { cid } = useParams();
   return (
     <div id="wd-modules">
       <ModulesControls />

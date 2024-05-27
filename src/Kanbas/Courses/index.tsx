@@ -5,17 +5,35 @@ import Home from "./Home";
 import Grades from "./Grades";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
+import { courses } from "../Database";
+import { FaAlignJustify } from "react-icons/fa";
+
 
 export default function Courses() {
+  const { cid } = useParams();
+  const course = courses.find((course) => course._id === cid);
+  const { pathname } = useLocation();
   return (
     <div id="wd-courses">
-        <div className="modal fade d-md-none" id="sidebarCollapse-courses"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div
+        className="modal fade d-md-none"
+        id="sidebarCollapse-courses"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">Course Navigation</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 className="modal-title" id="exampleModalLabel">
+                Course Navigation
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <CoursesNavigation />
@@ -31,11 +49,13 @@ export default function Courses() {
       >
         \/
       </button>
-      
-      <h2>Course 1234</h2>
+
+      <h2 className="text-danger">
+        <FaAlignJustify className="me-3 fs-4 mb-1" />
+        {course && course.name} &gt; {pathname.split("/")[4]}
+      </h2>
       <hr />
       <div className="d-flex">
-        
         <div className="d-none d-md-block">
           <CoursesNavigation />
         </div>
@@ -50,7 +70,6 @@ export default function Courses() {
           </Routes>
         </div>
       </div>
-    
     </div>
   );
 }
