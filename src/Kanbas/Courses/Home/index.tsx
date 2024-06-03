@@ -4,7 +4,7 @@ import CourseStatus from "./Status";
 export default function Home() {
   return (
     <div id="wd-home" className="d-flex">
-      <div className="flex-fill">
+      <div className="flex-fill me-4">
         <Modules />
       </div>
       <div className="d-none d-lg-block">

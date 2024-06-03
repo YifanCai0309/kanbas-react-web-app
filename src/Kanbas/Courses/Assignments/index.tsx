@@ -1,18 +1,24 @@
 import "./index.css";
+import { useState } from "react";
 import Header from "./Header";
 import db from "../../Database";
-import { useParams} from "react-router";
+import { useParams } from "react-router";
 import { IoAdd } from "react-icons/io5";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { PiNotePencil } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment } from "./reducer";
+import { FaTrash } from "react-icons/fa";
+import AssignmentModal from "./AssignmentModal";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments.filter(
-    (assignment) => assignment.course ===cid
-  );
+  const assignments = useSelector(
+    (state: any) => state.assignmentReducer
+  ).assignments.filter((assignment: any) => assignment.course === cid);
+  const dispatch = useDispatch();
 
   return (
     <div id="wd-assignments">
@@ -37,7 +43,7 @@ export default function Assignments() {
           </div>
         </li>
 
-        {assignments.map((assignment, index) => (
+        {assignments.map((assignment: any, index: any) => (
           <li
             key={assignment._id}
             id={`wd-assignment-${index + 1}`}
@@ -58,18 +64,26 @@ export default function Assignments() {
               <span id={`wd-assignment-${index + 1}-details`}>
                 <span className="text-danger">Multiple Modules</span> |{" "}
                 <span>
-                  <b>Not available until</b> May 6 at 12:00am
+                  <b>Not available until</b> {assignment.availableFromDate}
                 </span>{" "}
                 | <br></br>
                 <span>
-                  <b>Due</b> May 13 at 11:59pm
+                  <b>Due</b>
+                  {assignment.dueDate}
                 </span>{" "}
-                | <span>100pts</span>
+                | <span>{assignment.points}</span>
               </span>
             </div>
             <div className="ms-auto">
+              
+              <FaTrash
+                className="text-danger me-2 mb-1"
+                data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog" 
+              />
               <LessonControlButtons />
             </div>
+            {/*removeAssignment={() =>dispatch(deleteAssignment(assignment._id)} */}
+      <AssignmentModal removeAssignment={() =>dispatch(deleteAssignment(assignment._id))}/>
           </li>
         ))}
       </ul>

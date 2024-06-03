@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const { cid } = useParams();
+
+  const handleAddAssignment = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments/${new Date().getTime().toString()}`);
+  };
+
   return (
     <div className="row mb-3 d-flex justify-content-between">
       <div className=" col-md-6">
@@ -27,12 +35,15 @@ export default function Header() {
         >
           + Group
         </button>
+      
         <button
           id="wd-add-assignment"
           className="btn btn-lg btn-danger text-nowrap"
+          onClick={handleAddAssignment}
         >
           + Assignment
         </button>
+      
       </div>
     </div>
   );
