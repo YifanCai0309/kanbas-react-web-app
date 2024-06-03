@@ -1,16 +1,29 @@
+import "./index.css";
+import { useParams, useLocation } from "react-router";
+import db from "../../Database";
+
 export default function CoursesNavigation() {
-    return (
-      <ul id="wd-courses-navigation">
-        <li><a id="wd-course-home-link"    href="#/Kanbas/Courses/1234/Home">Home</a></li>
-        <li><a id="wd-course-modules-link" href="#/Kanbas/Courses/1234/Modules">Modules
-          </a></li>
-        <li><a id="wd-course-piazza-link"  href="#/Kanbas/Courses/1234/Piazza">Piazza</a></li>
-        <li><a id="wd-course-zoom-link"    href="#/Kanbas/Courses/1234/Zoom">Zoom</a></li>
-        <li><a id="wd-course-quizzes-link" href="#/Kanbas/Courses/1234/Assignments">
-            Assignments</a></li>
-        <li><a id="wd-course-assignments-link" href="#/Kanbas/Courses/1234/Quizzes">Quizzes
-          </a></li>
-        <li><a id="wd-course-grades-link"  href="#/Kanbas/Courses/1234/Grades">Grades</a></li>
-      </ul>
-  );}
-  
+  const courses=db.courses;
+  const { cid } = useParams();
+  const course = courses.find((course) => course._id === cid);
+  const { pathname } = useLocation();
+  const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades"];
+
+  return (
+    <div id="wd-courses-navigation" className="list-group fs-5 rounded-0">
+      {links.map((link) => {
+        const isActive = pathname.includes(link);
+        return (
+          <a
+            key={link}
+            id={`wd-course-${link.toLowerCase()}-link`}
+            href={`#/Kanbas/Courses/${course?._id}/${link}`}
+            className={`list-group-item ${isActive ? "active" : "text-danger"} border border-0`}
+          >
+            {link}
+          </a>
+        );
+      })}
+    </div>
+  );
+}
