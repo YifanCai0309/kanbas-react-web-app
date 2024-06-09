@@ -80,6 +80,16 @@ export default function Lab3() {
         commodo consequat.
       </Highlight>
       <PathParameters/>
+
+     
+
+
+
+
+
+
+
+
     </div>
   );
 }
