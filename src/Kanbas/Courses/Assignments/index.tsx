@@ -1,7 +1,6 @@
 import "./index.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./Header";
-import db from "../../Database";
 import { useParams } from "react-router";
 import { IoAdd } from "react-icons/io5";
 import { BsGripVertical } from "react-icons/bs";
@@ -9,9 +8,10 @@ import LessonControlButtons from "../Modules/LessonControlButtons";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { PiNotePencil } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
 import { FaTrash } from "react-icons/fa";
 import AssignmentModal from "./AssignmentModal";
+import * as client from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -19,7 +19,19 @@ export default function Assignments() {
     (state: any) => state.assignmentReducer
   ).assignments.filter((assignment: any) => assignment.course === cid);
   const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const assignments = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
 
+  const removeAssignment = async (assignmentId: string) => {
+    await client.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
   return (
     <div id="wd-assignments">
       <Header />
@@ -75,15 +87,20 @@ export default function Assignments() {
               </span>
             </div>
             <div className="ms-auto">
-              
               <FaTrash
                 className="text-danger me-2 mb-1"
-                data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog" 
+                data-bs-toggle="modal"
+                data-bs-target="#wd-add-module-dialog"
               />
               <LessonControlButtons />
             </div>
-            {/*removeAssignment={() =>dispatch(deleteAssignment(assignment._id)} */}
-      <AssignmentModal removeAssignment={() =>dispatch(deleteAssignment(assignment._id))}/>
+
+            <AssignmentModal
+              removeAssignment={() =>
+                //dispatch(deleteAssignment(assignment._id))
+                removeAssignment(assignment._id)
+              }
+            />
           </li>
         ))}
       </ul>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as client from "./client";
 
 export default function AssignmentEditor() {
   const { cid, id } = useParams();
@@ -16,23 +17,36 @@ export default function AssignmentEditor() {
     title: "New Assignment",
     description: "New Description",
     points: 100,
-    course:cid,
+    course: cid,
     dueDate: "2024-05-13",
     availableFromDate: "2024-05-06",
     availableUntilDate: "2024-05-15",
   };
 
-  
+  const createAssignment = async (assignment: any) => {
+    const newAssignment = await client.createAssignment(
+      cid as string,
+      assignment
+    );
+    dispatch(addAssignment(newAssignment));
+  };
+
+  const saveAssignment = async (assignment: any) => {
+    const status = await client.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
+
   const [editedAssignment, setEditedAssignment] = useState(assignment);
 
   const handleSave = async () => {
     if (isEdit) {
-      await dispatch(updateAssignment(editedAssignment));
-     
+      //await dispatch(updateAssignment(editedAssignment));
+      await saveAssignment(editedAssignment);
     } else {
-      await dispatch(addAssignment(editedAssignment));
+      //await dispatch(addAssignment(editedAssignment));
+      await createAssignment(editedAssignment);
     }
-   navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
   const handleCancel = () => {
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
