@@ -17,23 +17,43 @@ import * as client from "./client";
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
+  const [error, setError] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const dispatch = useDispatch();
   const fetchModules = async () => {
-    const modules = await client.findModulesForCourse(cid as string);
-    dispatch(setModules(modules));
+    try {
+      const modules = await client.findModulesForCourse(cid as string);
+      dispatch(setModules(modules));
+    } catch (err) {
+      setError("Error fetching modules");
+    }
   };
+
   const createModule = async (module: any) => {
-    const newModule = await client.createModule(cid as string, module);
-    dispatch(addModule(newModule));
+    try {
+      const newModule = await client.createModule(cid as string, module);
+      dispatch(addModule(newModule));
+    } catch (err) {
+      setError("Error creating module");
+    }
   };
+
   const removeModule = async (moduleId: string) => {
-    await client.deleteModule(moduleId);
-    dispatch(deleteModule(moduleId));
+    try {
+      await client.deleteModule(moduleId);
+      dispatch(deleteModule(moduleId));
+    } catch (err) {
+      setError("Error deleting module");
+    }
   };
+
   const saveModule = async (module: any) => {
-    const status = await client.updateModule(module);
-    dispatch(updateModule(module));
+    try {
+      await client.updateModule(module);
+      dispatch(updateModule(module));
+    } catch (err) {
+      setError("Error updating module");
+    }
   };
 
   useEffect(() => {
@@ -42,6 +62,7 @@ export default function Modules() {
 
   return (
     <div id="wd-modules">
+      {error && <div className="alert alert-danger">{error}</div>}
       <ModulesControls
         moduleName={moduleName}
         setModuleName={setModuleName}

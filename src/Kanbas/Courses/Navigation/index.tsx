@@ -1,9 +1,9 @@
 import "./index.css";
 import { useParams, useLocation } from "react-router";
-import db from "../../Database";
+//import db from "../../Database";
 
-export default function CoursesNavigation() {
-  const courses = db.courses;
+export default function CoursesNavigation({ courses }: { courses: any[] }) {
+  //const courses = db.courses;
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();

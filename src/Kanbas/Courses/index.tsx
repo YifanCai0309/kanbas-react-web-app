@@ -35,7 +35,7 @@ export default function Courses({ courses }: { courses: any[] }) {
               ></button>
             </div>
             <div className="modal-body">
-              <CoursesNavigation />
+              <CoursesNavigation courses={courses} />
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function Courses({ courses }: { courses: any[] }) {
       <hr />
       <div className="d-flex">
         <div className="d-none d-md-block">
-          <CoursesNavigation />
+          <CoursesNavigation courses={courses} />
         </div>
         <div className="flex-fill">
           <Routes>

@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import Signup from "./Signup";
 export default function Account() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
   return (
     <div>
       <div className="d-flex">
