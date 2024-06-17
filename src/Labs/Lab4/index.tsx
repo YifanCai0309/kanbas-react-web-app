@@ -11,25 +11,25 @@ import PassingFunctions from "./PassingFunctions";
 import ReduxExamples from "./ReduxExamples";
 import StringStateVariables from "./StringStateVariables";
 
-export default function lab4(){
-    function sayHello(){
-        alert("Hello");
-    }
-return (
-<div className="container">
-    <h1>Lab 4</h1>
-    <ClickEvent/>
-    <PassingDataOnEvent/>
-    <PassingFunctions theFunction={sayHello}/>
-    <EventObject/>
-    <Counter/>
-    <BooleanStateVariables/>
-    <StringStateVariables/>
-    <DateStateVariable/>
-    <ObjectStateVariable/>
-    <ArrayStateVariable/>
-    <ParentStateComponent/>
-    <ReduxExamples/>
-</div>
-);
+export default function lab4() {
+  function sayHello() {
+    alert("Hello");
+  }
+  return (
+    <div className="container">
+      <h1>Lab 4</h1>
+      <ClickEvent />
+      <PassingDataOnEvent />
+      <PassingFunctions theFunction={sayHello} />
+      <EventObject />
+      <Counter />
+      <BooleanStateVariables />
+      <StringStateVariables />
+      <DateStateVariable />
+      <ObjectStateVariable />
+      <ArrayStateVariable />
+      <ParentStateComponent />
+      <ReduxExamples />
+    </div>
+  );
 }
