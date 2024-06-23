@@ -23,7 +23,8 @@ export default function Quizzes() {
   const [quiz, setQuiz] = useState({ points: 0, course: cid });
   const dispatch = useDispatch();
   const currentDate = new Date();
-
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const role = currentUser.role;
   const fetchQuizzes = async () => {
     try {
       const quizzes = await client.findQuizzesForCourse(cid as string);
@@ -91,15 +92,17 @@ export default function Quizzes() {
           id="quiz-button-group"
           className="d-flex col-md-6 justify-content-end"
         >
-          <button
-            id="wd-add-assignment-group"
-            className="btn btn-lg btn-danger text-nowrap me-1"
-            onClick={() => {
-              createQuiz(quiz);
-            }}
-          >
-            + Quiz
-          </button>
+          {role === "FACALTY" && (
+            <button
+              id="wd-add-assignment-group"
+              className="btn btn-lg btn-danger text-nowrap me-1"
+              onClick={() => {
+                createQuiz(quiz);
+              }}
+            >
+              + Quiz
+            </button>
+          )}
 
           <button
             id="wd-add-assignment"
@@ -181,56 +184,58 @@ export default function Quizzes() {
               ) : (
                 <IoBan className="fs-4 me-1" />
               )}
-              <div className="dropdown d-inline me-1">
-                <IoMdMore
-                  id="wd-quiz-menu-btn"
-                  //className="btn btn-lg dropdown-toggle fs-4"
-                  className="dropdown-toggle fs-4"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                />
-                <ul className="dropdown-menu">
-                  <li>
-                    <a
-                      id="wd-edit-quiz-btn"
-                      className="dropdown-item"
-                      //href="#"
-                      type="button"
-                      onClick={() => {
-                        console.log("Edit quiz");
-                      }}
-                    >
-                      Edit
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      id="wd-delete-quiz-btn"
-                      className="dropdown-item"
-                      // href="#"
-                      type="button"
-                      onClick={() => {
-                        removeQuiz(quiz._id);
-                      }}
-                    >
-                      Delete
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      id="wd-publish-quiz-btn"
-                      className="dropdown-item"
-                      //href="#"
-                      type="button"
-                      onClick={() => {
-                        handleTogglePublish(quiz);
-                      }}
-                    >
-                      {quiz.status ? "Unpublish" : "Publish"}
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              {role === "FACULTY" && (
+                <div className="dropdown d-inline me-1">
+                  <IoMdMore
+                    id="wd-quiz-menu-btn"
+                    //className="btn btn-lg dropdown-toggle fs-4"
+                    className="dropdown-toggle fs-4"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                  />
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a
+                        id="wd-edit-quiz-btn"
+                        className="dropdown-item"
+                        //href="#"
+                        type="button"
+                        onClick={() => {
+                          console.log("Edit quiz");
+                        }}
+                      >
+                        Edit
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        id="wd-delete-quiz-btn"
+                        className="dropdown-item"
+                        // href="#"
+                        type="button"
+                        onClick={() => {
+                          removeQuiz(quiz._id);
+                        }}
+                      >
+                        Delete
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        id="wd-publish-quiz-btn"
+                        className="dropdown-item"
+                        //href="#"
+                        type="button"
+                        onClick={() => {
+                          handleTogglePublish(quiz);
+                        }}
+                      >
+                        {quiz.status ? "Unpublish" : "Publish"}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </li>
         ))}
