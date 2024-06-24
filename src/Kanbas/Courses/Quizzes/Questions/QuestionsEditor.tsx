@@ -15,6 +15,7 @@ export default function QuestionsEditor() {
   const questions = useSelector((state: any) => state.questionsReducer.questions);
   const totalPoints = useSelector((state: any) => state.questionsReducer.totalPoints);
 
+  const [deletedQuestions, setDeletedQuestions] = useState<any[]>([]); // 用于保存已删除的问题，以便保存时删除数据库中的问题
   const [isAddingQuestion, setIsAddingQuestion] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<any>(null);
   const [localQuestions, setLocalQuestions] = useState<any[]>([]);
@@ -36,9 +37,9 @@ export default function QuestionsEditor() {
   const handleDelete = (questionId: string) => {
     const question = localQuestions.find((q: any) => q._id === questionId);
     if (question._id) {
-      dispatch(deleteQuestion(question._id)); // 更新全局状态
+      dispatch(deleteQuestion(question._id)); // 只更新全局状态
+      setDeletedQuestions([...deletedQuestions, question]); // 保存已删除的问题
     }
-    setLocalQuestions(localQuestions.filter((q: any) => q._id !== questionId));
   };
 
   const handleNewQuestionClick = () => {
@@ -53,11 +54,9 @@ export default function QuestionsEditor() {
 
   const handleSave = (question: any) => {
     if (editingQuestion) {
-      setLocalQuestions(localQuestions.map((q: any) => (q._id === editingQuestion._id ? question : q)));
-      dispatch(updateQuestion(question)); // 更新全局状态
+      dispatch(updateQuestion(question)); // 只更新全局状态
     } else {
-      setLocalQuestions([...localQuestions, question]);
-      dispatch(addQuestion(question)); // 更新全局状态
+      dispatch(addQuestion(question)); // 只更新全局状态
     }
     setIsAddingQuestion(false);
     setEditingQuestion(null);
@@ -70,24 +69,35 @@ export default function QuestionsEditor() {
 
   const handleSaveAll = async () => {
     try {
-      await Promise.all(localQuestions.map(question => {
+      // 保存全局状态的所有问题到数据库，对于已删除的问题同步删除
+      await Promise.all(questions.map((question:any) => {
         if (question._id) {
           return client.updateQuestion(question._id, question);
         } else {
           return client.createQuestion(qid as string, question);
         }
-      })); // 保存所有问题到数据库
-      dispatch(setQuestions(localQuestions)); // 更新全局状态
-      await updateQuizPoints(qid as string, totalPoints); // 同时更新数据库中测验的总分
+      })); 
+      await Promise.all(deletedQuestions.map((question: any) => {
+        return client.deleteQuestion(question._id);
+      }));
+      setLocalQuestions(questions); // 用全局状态覆盖本地状态
+      await updateQuizPoints(qid as string, totalPoints); // 更新数据库中测验的总分
     } catch (err) {
       console.error("Failed to save questions: ", err);
     }
   };
 
+  const handleCancelAll = () => {
+    // 用本地状态覆盖全局状态（回退到本地状态）
+    dispatch(setQuestions(localQuestions));
+    setDeletedQuestions([]); // 清空已删除的问题
+    navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+  };
+
   return (
     <div>
       <ul id="wd-questions" className="list-group rounded-0">
-        {localQuestions.map((question: any) => (
+        {questions.map((question: any) => (
           <li key={question._id} className="list-group-item">
             <div className="d-flex justify-content-between">
               <div>{question.title}</div>
@@ -118,7 +128,7 @@ export default function QuestionsEditor() {
         </div>
       )}
       <div className="mt-3 float-end">
-        <button className="btn btn-secondary me-2" onClick={() => setLocalQuestions(questions)}>
+        <button className="btn btn-secondary me-2" onClick={handleCancelAll}>
           Cancel
         </button>
         <button className="btn btn-primary" onClick={handleSaveAll}>
