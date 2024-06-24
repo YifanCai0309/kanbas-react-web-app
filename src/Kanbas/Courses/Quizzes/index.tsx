@@ -198,11 +198,11 @@ export default function Quizzes() {
                       <a
                         id="wd-edit-quiz-btn"
                         className="dropdown-item"
-                        //href="#"
+                        href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/Details`}
                         type="button"
-                        onClick={() => {
-                          console.log("Edit quiz");
-                        }}
+                        // onClick={() => {
+                        //   console.log("Edit quiz");
+                        // }}
                       >
                         Edit
                       </a>
