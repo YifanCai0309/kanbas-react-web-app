@@ -26,3 +26,9 @@ export const updateQuiz = async (quiz: any) => {
   const response = await axios.put(`${QUIZZES_API}/${quiz._id}`, quiz);
   return response.data;
 };
+
+// update points for quiz
+export const updateQuizPoints = async (quizId: string, points: number) => {
+  const response = await axios.put(`${QUIZZES_API}/${quizId}/points`, { points });
+  return response.data;
+};

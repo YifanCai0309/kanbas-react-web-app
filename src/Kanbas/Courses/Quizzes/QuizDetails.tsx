@@ -48,16 +48,15 @@ export default function QuizDetails() {
       {quiz && (
         <div>
           <div className="d-flex  justify-content-end">
-            <button
-              id="wd-add-assignment-group"
-              style={{ backgroundColor: "#c7cdd1" }}
-              className="btn btn-lg text-nowrap me-2"
-              // onClick={() => {
-              //   createQuiz(quiz);
-              // }}
-            >
-              Preview
-            </button>
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
+              <button
+                id="wd-add-assignment-group"
+                style={{ backgroundColor: "#c7cdd1" }}
+                className="btn btn-lg text-nowrap me-2"
+              >
+                Preview
+              </button>
+            </Link>
 
             <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Editor`}>
               <button

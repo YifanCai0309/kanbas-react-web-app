@@ -14,6 +14,7 @@ import {
   updateQuiz,
   deleteQuiz,
 } from "./reducer";
+import QuestionsEditor from "./Questions/QuestionsEditor";
 
 export default function QuizEditor() {
   const { qid } = useParams();
@@ -59,6 +60,8 @@ export default function QuizEditor() {
     fetchQuizzes();
   }, [quiz]);
 
+  const totalPoints = useSelector((state: any) => state.questionsReducer.totalPoints);
+
   return (
     <div>
       {editQuiz && (
@@ -66,7 +69,7 @@ export default function QuizEditor() {
           <h1>Quiz Editor</h1>
           <div className="d-flex gap-3 justify-content-end align-items-center">
             <span>
-              <b>Points</b> {quiz?.points}
+              <b>Points:</b> {totalPoints}
             </span>
             {quiz?.status ? (
               <span>
@@ -418,7 +421,9 @@ export default function QuizEditor() {
                 </div>
               </div>
             ) : (
-              <div>Questions Content</div>
+              <div>
+                <QuestionsEditor />
+              </div>
             )}
           </div>
         </div>
