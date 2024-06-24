@@ -66,7 +66,6 @@ export default function QuizEditor() {
     <div>
       {editQuiz && (
         <div className="container">
-          <h1>Quiz Editor</h1>
           <div className="d-flex gap-3 justify-content-end align-items-center">
             <span>
               <b>Points:</b> {totalPoints}

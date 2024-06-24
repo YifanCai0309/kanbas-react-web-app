@@ -9,6 +9,7 @@ export const signin = async (credentials: any) => {
   );
   return response.data;
 };
+
 export const profile = async () => {
   const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
   return response.data;
@@ -17,7 +18,32 @@ export const signup = async (user: any) => {
   const response = await axiosWithCredentials.post(`${USERS_API}/signup`, user);
   return response.data;
 };
+
+export const update = async (user: any) => {
+  const response = await axiosWithCredentials.put(
+    `${USERS_API}/${user._id}`,
+    user
+  );
+  return response.data;
+};
+
 export const signout = async () => {
   const response = await axiosWithCredentials.post(`${USERS_API}/signout`);
+  return response.data;
+};
+
+export const addCourseToUser = async (userId: any, courseId: any) => {
+  const response = await axiosWithCredentials.post(
+    `${USERS_API}/${userId}/addCourse`,
+    { userId, courseId }
+  );
+  return response.data;
+};
+
+export const removeCourseFromUser = async (userId: any, courseId: any) => {
+  const response = await axiosWithCredentials.post(
+    `${USERS_API}/${userId}/removeCourse`,
+    { userId, courseId }
+  );
   return response.data;
 };
