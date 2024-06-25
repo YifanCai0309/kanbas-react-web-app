@@ -11,7 +11,7 @@ import QuizDetails from "./Quizzes/QuizDetails";
 import QuizEditor from "./Quizzes/QuizEditor";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
-import  QuizPreview from "./Quizzes/QuizPreview/QuizPreview";
+import  QuizPreview from "./Quizzes/QuizTake/QuizPreview";
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();

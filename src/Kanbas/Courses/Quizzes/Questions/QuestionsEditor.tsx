@@ -82,6 +82,7 @@ export default function QuestionsEditor() {
       }));
       setLocalQuestions(questions); // 用全局状态覆盖本地状态
       await updateQuizPoints(qid as string, totalPoints); // 更新数据库中测验的总分
+      alert("Questions Saved!");
     } catch (err) {
       console.error("Failed to save questions: ", err);
     }
