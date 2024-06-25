@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import QuizTextEditor from "../QuizTextEditor";
+import "./QuestionForm.css";
 
 const QuestionForm = ({ question, onCancel, onSave }: { question: any, onCancel: () => void, onSave: (question: any) => void }) => {
   const [type, setType] = useState(question ? question.type : "multiple_choice");
@@ -113,8 +115,8 @@ const QuestionForm = ({ question, onCancel, onSave }: { question: any, onCancel:
   };
 
   return (
-    <div>
-      <div>
+    <div className="question-form">
+      <div className="form-group">
         <label>Type</label>
         <select value={type} onChange={(e) => setType(e.target.value)}>
           <option value="multiple_choice">Multiple Choice</option>
@@ -122,30 +124,30 @@ const QuestionForm = ({ question, onCancel, onSave }: { question: any, onCancel:
           <option value="fill_in_blanks">Fill in Blanks</option>
         </select>
       </div>
-      <div>
+      <div className="form-group">
         <label>Title</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
-      <div>
+      <div className="form-group">
         <label>Points</label>
         <input type="number" value={points} onChange={(e) => setPoints(Number(e.target.value))} />
       </div>
       <div>
-        <label>Question</label>
-        <textarea value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
+        <label><strong>Question</strong></label>
+        <QuizTextEditor value={questionText} setValue={(e) => setQuestionText(e)} />
       </div>
       {type === "multiple_choice" && (
         <div>
-          <label>Choices</label>
+          <label>Choices</label><br />
           {renderChoices()}
-          <button type="button" onClick={handleAddChoice}>Add Choice</button>
+          <button className="btn btn-success" type="button" onClick={handleAddChoice}>Add Choice</button>
         </div>
       )}
       {type === "fill_in_blanks" && (
         <div>
-          <label>Possible Answers</label>
-          {renderPossibleAnswers()}
-          <button type="button" onClick={handleAddPossibleAnswer}>Add Answer</button>
+          <label><strong>Blanks</strong></label>
+          {renderPossibleAnswers()}<br />
+          <button className="btn btn-success" type="button" onClick={handleAddPossibleAnswer}>Add Answer</button>
         </div>
       )}
       {type === "true_false" && (
@@ -158,9 +160,9 @@ const QuestionForm = ({ question, onCancel, onSave }: { question: any, onCancel:
           />
         </div>
       )}
-      <div>
-        <button type="button" onClick={onCancel}>Cancel</button>
-        <button type="button" onClick={handleSave}>Save</button>
+      <br /><div>
+        <button className="btn btn-secondary me-2" type="button" onClick={onCancel}>Cancel</button>
+        <button className="btn btn-primary" type="button" onClick={handleSave}>Save</button>
       </div>
     </div>
   );

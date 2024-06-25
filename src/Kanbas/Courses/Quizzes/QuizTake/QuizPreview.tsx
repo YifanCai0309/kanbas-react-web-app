@@ -4,6 +4,8 @@ import * as QuestionClient from '../Questions/client';
 import * as QuizClient from '../client';
 import * as client from './client';
 import { useSelector } from 'react-redux';
+import './QuizPreview.css';
+import RenderHtmlString from './RenderHtmlString';
 
 const QuizPreview = () => {
   const { cid } = useParams() as any;
@@ -11,6 +13,7 @@ const QuizPreview = () => {
   const navigate = useNavigate();
 
   const [quiz, setQuiz] = useState<any>(null);
+  const [quizInstructions, setQuizInstructions] = useState<any>('');
   const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<any>({});
   const [latestAttempt, setLatestAttempt] = useState<any>(null);
@@ -27,6 +30,9 @@ const QuizPreview = () => {
     try {
       const quiz = await QuizClient.findQuiz(cid as string, qid as string);
       setQuiz(quiz);
+      setQuizInstructions(quiz.quiz_instructions);
+      console.log(quiz);
+      console.log(quiz.quiz_instructions);
 
       // 如果是学生，设置attemptsNumber
       if (role === 'STUDENT') {
@@ -223,30 +229,30 @@ const handleRetake = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flex: 1 }}> 
+      <div className="quiz-form" style={{ flex: 1 }}> 
       <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Editor`}>
         {role === 'FACULTY' && (
-        <button>Edit Quiz</button>
+        <button className="btn btn-primary">Edit Quiz</button>
         )}
       </Link> 
         <a>   </a>
       <Link to = {`/Kanbas/Courses/${cid}/Quizzes`}>
-        <button>Back to Quizzes</button>
+        <button className="btn btn-secondary me-2">Back to Quizzes</button>
       </Link>
-      <a>   </a>
-        <button onClick={handleSubmit}>Submit Quiz</button>
+        <button className="btn btn-danger" onClick={handleSubmit}>Submit Quiz</button>
         <a>   </a>
-        <button onClick={handleRetake}>Retake Quiz</button>
-        <hr />
-        <p> Attempts Left: {role !== 'FACULTY' ? attemptsNumber : 'Infinite'} </p>
-        <hr />
-          Your score:{score !== null && <p> {score}</p>}
-        <hr />
+        <button className="btn btn-danger" onClick={handleRetake}>Retake Quiz</button>
+        <hr /><div>
+          <p> <strong>Attempts Left: </strong>{role !== 'FACULTY' ? attemptsNumber : 'Infinite'} </p>
+          <p> <strong>Your score:</strong>{score !== null && <p> {score}</p>} </p>
+          <p> <strong>Quiz Instructions:</strong> <RenderHtmlString htmlString={quizInstructions} /></p>
+        </div><hr />
       <div>
         {questions.map((question) => (
           <div key={question._id}>
-            <p>{question.question}</p>
-            <p>Points: {question.points}</p>
+            <p><strong>Question: </strong> <RenderHtmlString htmlString={question.question} /></p>
+            <p><strong>Points: </strong>{question.points}</p>
+            <p><strong>Answer:</strong></p>
             {question.type === 'multiple_choice' && question.choices.map((choice: any) => (
               <div key={choice._id}>
                 <input
@@ -295,7 +301,7 @@ const handleRetake = () => {
       </div>
     </div>
     
-    <div style={{ flex: 1, marginLeft: '20px' }}>
+    <div className="quiz-form" style={{ flex: 1, marginLeft: '20px' }}>
       <h3>Latest Attempt</h3>
       {latestAttempt && (
       <div>
@@ -310,7 +316,7 @@ const handleRetake = () => {
           }
           const correct = isAnswerCorrect(question, answer);
           return (
-            <li key={answer.question_id} style={{ color: correct ? 'green' : 'red' }}>
+            <li className="answered-question" key={answer.question_id} style={{ color: correct ? 'green' : 'red' }}>
               <p><strong>Question:</strong> {question?.question}</p>
               <p><strong>Answer:</strong> {answer.choice || (answer.is_true !== null ? answer.is_true.toString() : answer.blanks.join(', '))}</p>
               {correct ? <p>✔️ Correct</p> : <p>❌ Incorrect</p>}
