@@ -35,6 +35,7 @@ const QuizPreview = () => {
       console.log(quiz.quiz_instructions);
 
       // 如果是学生，设置attemptsNumber
+      console.log("current user role:", role);
       if (role === 'STUDENT') {
         const count = await client.getPreviousAttemptsNumber(qid, userId);
         setAttemptsNumber(quiz.how_many_attempts - count);
@@ -62,6 +63,10 @@ const QuizPreview = () => {
   const fetchLatestAttempt = async () => {
     try {
       const latestAttempt = await client.getLatestAttempt(qid, userId);
+      if (!latestAttempt) {
+        return;
+      }
+
       setLatestAttempt(latestAttempt);
       console.log(latestAttempt);
 
@@ -205,7 +210,7 @@ const QuizPreview = () => {
             console.error(`Error processing question ID ${answer.question_id}:`, error);
         }
       });
-    return score;
+    return parseFloat(score.toFixed(2));
 }
 
 const isAnswerCorrect = (question: any, answer: any) => {
