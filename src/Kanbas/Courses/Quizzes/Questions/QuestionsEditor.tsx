@@ -18,13 +18,11 @@ export default function QuestionsEditor() {
   const [deletedQuestions, setDeletedQuestions] = useState<any[]>([]); // 用于保存已删除的问题，以便保存时删除数据库中的问题
   const [isAddingQuestion, setIsAddingQuestion] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<any>(null);
-  const [localQuestions, setLocalQuestions] = useState<any[]>([]);
 
   const fetchQuestions = async () => {
     try {
       const questions = await client.findQuestionsByQuizId(qid as string);
       dispatch(setQuestions(questions));
-      setLocalQuestions(questions); // 初始化本地问题列表
     } catch (err) {
       console.error("Failed to fetch questions: ", err);
     }
@@ -35,9 +33,9 @@ export default function QuestionsEditor() {
   }, [qid]);
 
   const handleDelete = (questionId: string) => {
-    const question = localQuestions.find((q: any) => q._id === questionId);
+    const question = questions.find((q: any) => q._id === questionId);
     if (question._id) {
-      dispatch(deleteQuestion(question._id)); // 只更新全局状态
+      dispatch(deleteQuestion(question._id)); // 更新全局状态
       setDeletedQuestions([...deletedQuestions, question]); // 保存已删除的问题
     }
   };
@@ -54,9 +52,9 @@ export default function QuestionsEditor() {
 
   const handleSave = (question: any) => {
     if (editingQuestion) {
-      dispatch(updateQuestion(question)); // 只更新全局状态
+      dispatch(updateQuestion(question)); // 更新全局状态
     } else {
-      dispatch(addQuestion(question)); // 只更新全局状态
+      dispatch(addQuestion(question)); // 更新全局状态
     }
     setIsAddingQuestion(false);
     setEditingQuestion(null);
@@ -80,7 +78,6 @@ export default function QuestionsEditor() {
       await Promise.all(deletedQuestions.map((question: any) => {
         return client.deleteQuestion(question._id);
       }));
-      setLocalQuestions(questions); // 用全局状态覆盖本地状态
       await updateQuizPoints(qid as string, totalPoints); // 更新数据库中测验的总分
       alert("Questions Saved!");
     } catch (err) {
@@ -88,11 +85,14 @@ export default function QuestionsEditor() {
     }
   };
 
-  const handleCancelAll = () => {
-    // 用本地状态覆盖全局状态（回退到本地状态）
-    dispatch(setQuestions(localQuestions));
+  const handleCancelAll = async () => {
+    // 得到数据库中的问题列表
+    const questions = await client.findQuestionsByQuizId(qid as string);
+    // 用数据库状态覆盖全局状态
+    dispatch(setQuestions(questions));
     setDeletedQuestions([]); // 清空已删除的问题
-    navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    // navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    alert("Changes Canceled!");
   };
 
   return (
