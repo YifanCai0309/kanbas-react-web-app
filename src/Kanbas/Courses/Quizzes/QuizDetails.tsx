@@ -9,6 +9,11 @@ export default function QuizDetails() {
   const { qid } = useParams();
   const { cid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
+  
+  // 用户信息
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const userId = currentUser._id;
+  const role = currentUser.role;
 
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
   //   const [quiz, setQuiz] = useState<any>(null);
@@ -48,18 +53,19 @@ export default function QuizDetails() {
       {quiz && (
         <div>
           <div className="d-flex  justify-content-end">
-            <button
-              id="wd-add-assignment-group"
-              style={{ backgroundColor: "#c7cdd1" }}
-              className="btn btn-lg text-nowrap me-2"
-              // onClick={() => {
-              //   createQuiz(quiz);
-              // }}
-            >
-              Preview
-            </button>
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
+              <button
+                id="wd-add-assignment-group"
+                style={{ backgroundColor: "#c7cdd1" }}
+                className="btn btn-lg text-nowrap me-2"
+              >
+                Preview
+              </button>
+            </Link>
 
+            
             <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Editor`}>
+            { role === "FACULTY" && (
               <button
                 id="wd-add-assignment"
                 style={{ backgroundColor: "#c7cdd1" }}
@@ -70,7 +76,7 @@ export default function QuizDetails() {
               >
                 <FaPencilAlt className="me-2" />
                 Edit
-              </button>
+              </button>)}
             </Link>
           </div>
           <div id="wb-quiz-detail" className="container  mt-4">
