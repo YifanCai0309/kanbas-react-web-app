@@ -54,8 +54,7 @@ export default function QuizEditor() {
   const handleCancel = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
-  // console.log("quiz" + quiz);
-  // console.log("edit quiz:" + editQuiz);
+  
   useEffect(() => {
     fetchQuizzes();
   }, []);

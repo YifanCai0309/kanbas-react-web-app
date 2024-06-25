@@ -92,7 +92,7 @@ export default function Quizzes() {
           id="quiz-button-group"
           className="d-flex col-md-6 justify-content-end"
         >
-          {role === "FACAULTY" && (
+          {role === "FACULTY" && (
             <button
               id="wd-add-assignment-group"
               className="btn btn-lg btn-danger text-nowrap me-1"
